@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {lazy, Suspense} from 'react';
+import {Link, Routes, Route} from 'react-router-dom';
 
+
+// Code splitting Routes
+const Home = lazy(() => import('./Pages/Home'));
+const About = lazy(() => import('./Pages/About'));
+const Articles = lazy(() => import('./Pages/Articles'));
+
+// Lazy loading components. Use on components that are hidden on load
+// Error boundaries to cach exceptions
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+        <h1>Code Splitting</h1>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/articles">Articles</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+        </ul>
+        <Suspense fallback={<p>Loading...</p>}>
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/articles" element={<Articles />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+        </Suspense>
+        
+      </div>
   );
 }
 
